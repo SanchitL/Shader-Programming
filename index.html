@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!-- python -m SimpleHTTPServer -->
+<!-- http://localhost:8000/phong.html -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CSC418/2504 Assignment 2: WebGL</title>
+<link href='css/colorpicker.css' type='text/css' rel='stylesheet'/>
+<link href='css/jquery-ui-1.8.13.custom.css' type='text/css' rel='stylesheet' />
+<link href='css/style.css' type='text/css' rel='stylesheet' />
+<script type='text/javascript' src='js/jquery-1.5.1.min.js'></script>
+<script type='text/javascript' src='js/jquery-ui-1.8.13.custom.min.js'></script>
+<script type='text/javascript' src='js/colorpicker.js'></script>
+<script type="text/javascript" src="js/renderer.js"></script>
+<script type="text/javascript">
+var renderer = 0;
+var shaderFolder = 'shaders/';
+
+function run() {
+  loadSelectedShader();
+  var vertSrc = document.getElementById("code_vert").value;
+  var fragSrc = document.getElementById("code_frag").value;
+  renderer = new Renderer("myWebGLCanvas", vertSrc, fragSrc);
+  renderer.init();
+  
+  var d = document.getElementById("select_id2").value;
+  renderer.updateModel(d);
+  renderer.display();
+}
+
+function updateRenderer() {
+  var vertSrc = document.getElementById("code_vert").value;
+  var fragSrc = document.getElementById("code_frag").value;
+
+  if (renderer)
+  {
+	renderer.updateShader(vertSrc, fragSrc);
+	modelChanged();
+  }
+}
+
+var interval = setInterval(timerFunc, 40);
+
+function timerFunc() {
+  var offset = 1.0;
+  if (renderer)
+  {
+    renderer.t += offset;
+    renderer.display();
+  }
+}
+
+function modeChanged() {
+  var d = document.getElementById("select_id").value;
+  renderer.modeVal = d;
+}
+
+function modelChanged() {
+  var d = document.getElementById("select_id2").value;
+  renderer.updateModel(d);
+  renderer.display();
+}
+
+function loadSelectedShader() {
+  var d = parseInt(document.getElementById("select_example_id").value);
+  switch(d)
+  {
+    default:
+    case 1: // Gouraud
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'gouraud_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'gouraud_vert.glsl');
+      break;
+    case 2: // Phong
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'phong_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'phong_vert.glsl');
+      break;
+    case 3: // Cel
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'cel_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'cel_vert.glsl');
+      break;
+    case 4: // Halftone
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'halftone_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'halftone_vert.glsl');
+      break;
+    case 5: // Texture
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'texture_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'texture_vert.glsl');
+	  break;
+	case 6: // Environment
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'environment_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'environment_vert.glsl');
+      break;
+	case 7: // Bonus
+      document.getElementById("code_frag").value = loadShaderFile(shaderFolder + 'bonus_frag.glsl');
+      document.getElementById("code_vert").value = loadShaderFile(shaderFolder + 'bonus_vert.glsl');
+      break;  
+  }
+  updateRenderer();
+}
+
+function loadShaderFile(filename) {
+  var file_url = filename + '?' + new Date().getTime(); // Hack to ignore the cache
+
+	var request = new XMLHttpRequest();
+  request.open('GET', filename, false);
+  request.send(); //"false" above, will block
+
+  if (request.status != 200) {
+    alert("cannot load file " + filename);
+  } else {
+    return request.responseText;
+  }
+}
+
+</script>
+</head>
+<body onload="run();">
+<p id="code_vert_error" ></p>
+<p id="code_frag_error" ></p></td></tr>
+<table>
+<tr style="vertical-align:top;">
+<td><canvas id="myWebGLCanvas" width="600" height="400">Your browser does not support the canvas element</canvas><br>
+<select onchange="loadSelectedShader()" id="select_example_id">
+  <option selected="selected" value="1">Gouraud Shading</option>
+  <option value="2">Phong Shading</option>
+  <option value="3">Cel Shading</option>
+  <option value="4">Halftone Pattern</option>
+  <option value="5">Texture Mapping</option>
+  <option value="6">Environment Mapping</option>
+  <option value="7">Bonus Shader</option>
+</select>
+<select onchange="modelChanged()" id="select_id2">
+  <option selected="selected" value="./models/knot.txt">Knot</option>
+  <option value="./models/cube.txt">Cube</option>
+  <option value="./models/plane.txt">Plane</option>
+  <option value="./models/sphere.txt">Sphere</option>
+  <option value="./models/hose.txt">Hose</option>
+  <option value="./models/teapot.txt">Teapot</option>
+</select>
+<!-- <select onchange="modeChanged()" id="select_id">
+  <option value="1">normal mode</option>
+  <option value="2">ambient only</option>
+  <option value="3">diffuse only</option>
+  <option value="4">specular only</option>
+</select> -->
+<button onclick="loadSelectedShader()">Reload Shader Code</button>
+
+<table>
+ <tr>
+  <td align='right'>Ambient reflection (ka):</td><td id='slider-ka-value' width='30px'>1.0</td><td><div id='slider-ka'/></td>
+  <td align='right'>Ambient color:</td><td colspan='2'><div id='colorSelectorAmbient' class='colorSelector'><div style='background-color:rgb(52,26,0)'></div></div></td>
+  <td colspan="2">&nbsp;</td>
+  <td>Light position:</td>
+ </tr>
+ <tr>
+  <td align='right'>Diffuse reflection (kd):</td><td id='slider-kd-value'  width='30px'>1.0</td><td><div id='slider-kd'/></td>
+  <td align='right'>Diffuse Color:</td><td colspan='2'><div id='colorSelectorDiffuse' class='colorSelector'><div style='background-color:rgb(204,102,0)'></div></div></td>
+  <td align='right' width="30px">X:</td><td id='slider-x-value' width='30px' align='center'>1</td><td width='150px'><div id='slider-x'/></td>
+ </tr>
+ <tr>
+  <td align='right'>Specular reflection (ks):</td><td id='slider-ks-value'  width='30px'>1.0</td><td><div id='slider-ks'/></td>
+  <td align='right'>Specular Color:</td><td colspan='2'><div id='colorSelectorSpecular' class='colorSelector'><div style='background-color:rgb(256,256,256)'></div></div></td>
+  <td align='right'>Y:</td><td id='slider-y-value'  width='30px' align='center'>1</td><td width='150px'><div id='slider-y'/></td>
+ </tr>
+ <tr>
+  <td align='right'>Shininess:</td><td id='slider-s-value' width='30px'>80</td><td width='150px'><div id='slider-s'/></td>
+  <td>&nbsp;Background Color:</td><td colspan='2'><div id='colorSelectorBg' class='colorSelector'><div style='background-color:rgb(0,102,179)'></div></div></td>
+  <td align='right'>Z:</td> <td id='slider-z-value'  width='30px' align='center'>-1</td><td width='150px'><div id='slider-z'/></td>
+ </tr>
+</table>
+
+</td>
+<td>
+<h3>Vertex Shader</h3>
+<textarea readonly cols="55" rows="40" class="code_input" id="code_vert" wrap="off"></textarea><br>
+<h3>Fragment Shader</h3>
+<textarea readonly cols="55" rows="40" class="code_input" id="code_frag" wrap="off"></textarea><br>
+</td>
+
+</table>
+
+<script>
+$('#slider-s').slider({value:80, min:1, max:128, step:1, range:"min", slide:updateShininess});
+$('#slider-ka').slider({value:1, max:1, step:0.01, range:"min", slide:updateLightAmbientTerm});
+$('#slider-kd').slider({value:1, max:1, step:0.01, range:"min", slide:updateLightDiffuseTerm});
+$('#slider-ks').slider({value:1, max:1, step:0.01, range:"min", slide:updateLightSpecularTerm});
+$('#slider-x').slider({value:1, min:-10, max:10, step:0.1, slide:updateLight, change:updateLight});
+$('#slider-y').slider({value:1, min:-10, max:10, step:0.1, slide:updateLight, change:updateLight});
+$('#slider-z').slider({value:-1, min:-10, max:10, step:0.1, slide:updateLight, change:updateLight});
+
+function updateShininess(event, ui){
+  renderer.shininess = ui.value;
+  $('#slider-s-value').html(ui.value);
+}
+function updateLightAmbientTerm(event, ui){
+  renderer.kaVal = ui.value;
+  $('#slider-ka-value').html(ui.value);
+}
+function updateLightDiffuseTerm(event, ui){
+  renderer.kdVal = ui.value;
+  $('#slider-kd-value').html(ui.value);
+}
+function updateLightSpecularTerm(event, ui){
+  renderer.ksVal = ui.value;
+  $('#slider-ks-value').html(ui.value);
+}
+
+function updateLight(){
+  var x = $('#slider-x').slider("value");
+  var y = $('#slider-y').slider("value");
+  var z = $('#slider-z').slider("value");
+  renderer.lightPos = [x,y,z];
+  $('#slider-x-value').html(x);
+  $('#slider-y-value').html(y);
+  $('#slider-z-value').html(z);
+}
+
+function updateClearColor(r,g,b){
+  clearColor = [r,g,b,1.0];
+}
+
+$('#colorSelectorAmbient').ColorPicker({
+  onSubmit: function(hsb, hex, rgb, el) {
+    $(el).val(hex);
+    $(el).ColorPickerHide();
+  },
+  color: '#341900',
+  onShow: function (colpkr) {
+    $(colpkr).fadeIn(500);
+    return false;
+  },
+  onHide: function (colpkr) {
+    $(colpkr).fadeOut(500);
+    return false;
+  },
+  onChange: function (hsb, hex, rgb) {
+    $('#colorSelectorAmbient div').css('backgroundColor', '#' + hex);
+    renderer.ambientColor = [rgb.r/256, rgb.g/256, rgb.b/256];
+  },
+  onBeforeShow: function (colpkr) {
+    $(colpkr).ColorPickerSetColor('rgb(0.2,0.1,0.0)');
+  }
+})
+
+$('#colorSelectorDiffuse').ColorPicker({
+  onSubmit: function(hsb, hex, rgb, el) {
+    $(el).val(hex);
+    $(el).ColorPickerHide();
+  },
+  color: '#cc6600',
+  onShow: function (colpkr) {
+    $(colpkr).fadeIn(500);
+    return false;
+  },
+  onHide: function (colpkr) {
+    $(colpkr).fadeOut(500);
+    return false;
+  },
+  onChange: function (hsb, hex, rgb) {
+    $('#colorSelectorDiffuse div').css('backgroundColor', '#' + hex);
+    renderer.diffuseColor = [rgb.r/256,rgb.g/256,rgb.b/256];
+  },
+  onBeforeShow: function (colpkr) {
+    $(colpkr).ColorPickerSetColor('rgb(0.8,0.4,0.0)');
+  }
+})
+
+$('#colorSelectorSpecular').ColorPicker({
+  onSubmit: function(hsb, hex, rgb, el) {
+    $(el).val(hex);
+    $(el).ColorPickerHide();
+  },
+  color: '#ffffff',
+  onShow: function (colpkr) {
+    $(colpkr).fadeIn(500);
+    return false;
+  },
+  onHide: function (colpkr) {
+    $(colpkr).fadeOut(500);
+    return false;
+  },
+  onChange: function (hsb, hex, rgb) {
+    $('#colorSelectorSpecular div').css('backgroundColor', '#' + hex);
+    renderer.specularColor = [rgb.r/256,rgb.g/256,rgb.b/256];
+  },
+  onBeforeShow: function (colpkr) {
+    $(colpkr).ColorPickerSetColor('rgb(1.0,1.0,1.0)');
+  }
+})
+
+$('#colorSelectorBg').ColorPicker({
+  onSubmit: function(hsb, hex, rgb, el) {
+   $(el).val(hex);
+   $(el).ColorPickerHide();
+ },
+ color: '#0065b3',
+ onShow: function (colpkr) {
+   $(colpkr).fadeIn(500);
+  return false;
+  },
+  onHide: function (colpkr) {
+    $(colpkr).fadeOut(500);
+    return false;
+  },
+  onChange: function (hsb, hex, rgb) {
+    $('#colorSelectorBg div').css('backgroundColor', '#' + hex);
+    renderer.clearColor = [rgb.r/256,rgb.g/256,rgb.b/256];
+  },
+  onBeforeShow: function (colpkr) {
+    $(colpkr).ColorPickerSetColor('rgb(0.0,0.4,0.7)');
+  }
+})
+</script>
+
+<p>Based on a 
+<a href=http://multivis.net/lecture/phong.html>http://multivis.net/lecture/phong.html</a> | 
+<a target="_blank"
+  href="http://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code/WebGLShaderLightMat/ShaderLightMat.html">WebGL applet</a> by <a
+  href="http://www.uni-marburg.de/fb12/grafikmultimedia-en/team/thormae-en" target="_blank">Prof. Thorsten Thorm&auml;hlen</a>.
+  Modified by <a href="http://wwwcg.in.tum.de/group/persons/kehrer.html" target="_blank">Johannes Kehrer</a> for educational purpose.</p>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+html
+{
+  margin: 0px;
+  padding: 0px;
+  background-color: #333;
+  font-weight: 300;
+  height: 100%;
+}
+body
+{
+  background-color: #fff;
+  font-size: 10pt;
+  margin:0px auto;
+  width: 1050px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 5px;
+  min-height: 100%;
+  border-left: 1px solid #888;
+  border-right: 1px solid #888;
+  text-align: justify;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+table{
+  padding:0;
+  margin:0;
+}
+p{
+  padding: 0;
+  margin: 0;
+}
+p#code_vert_error
+{
+  background-color: #f54;
+}
+p#code_frag_error
+{
+  background-color: #e58;
+}
+H3{ font-size: 100%; margin:0;padding:0; }
+select, input, button { font-size:12px; }
+a:link, a:visited { color: #035aa6; }
+a:active, a:hover  { color: #000090; }
+a {text-decoration: none;}
+@font-face { font-family: 'Tex'; src: url('MathJax_Main-Regular.otf'); }
+@font-face { font-family: 'Tex'; src: url('MathJax_Math-Italic.otf'); font-style:italic; }
+.eqn { font-family: "Tex"; word-spacing:-0.12em; text-align:center; }
+.val { font-family: "Tex"; line-height:10%; }
+.small { color:gray; font-size:14; }
+textarea 
+{
+  font-family: monospace;
+}
