@@ -9,7 +9,7 @@ various styles of shaders.
 # Usage 
 Have python installed on your local machine.
 
-Start a SimpleHTTPServer in the rrot of the repo.
+Start a SimpleHTTPServer in the root of the repo.
 ```sh
 python -m SimpleHTTPServer
 ```
