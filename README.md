@@ -1,5 +1,5 @@
 # Shader-Programming
-CSC418 Assignment 2 on Shaders and shader implmementation
+CSC418 Assignment 2 on Shaders and shader implementations
 
 ## Goal 
 
