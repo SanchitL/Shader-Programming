@@ -6,6 +6,14 @@ CSC418 Assignment 2 on Shaders and shader implmementation
 The goal of this project was to solidify my understanding of shader algorithms. Over the course of this assignment I implemented 
 various styles of shaders.
 
+# Usage 
+Have python installed on your local machine.
+
+Start a SimpleHTTPServer in the rrot of the repo.
+```sh
+python -m SimpleHTTPServer
+```
+
 # Gouraud Shading
 # Phong Shading
 # Cel Shading
