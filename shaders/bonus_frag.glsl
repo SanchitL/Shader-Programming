@@ -28,5 +28,24 @@ uniform samplerCube envTexSampler;	// cube sampler for the environment map
 void main() {
   // Your solution should go here.
   // Only the ambient colour calculations have been provided as an example.
-  gl_FragColor = vec4(ambientColor, 1.0);
+  vec3 normDirection = normalize(normalInterp);
+  vec3 lightDirection = normalize(lightPos - vertPos);
+  float intensity = min(max(0.0, dot(normDirection, lightDirection)), 0.9);
+  float density = 2.0;
+
+  // unit square to make calculations easier.
+  vec2 screenCoord = vec2(gl_FragCoord.x, gl_FragCoord.y);
+
+  // make the lines by sheering a grid of circles into a grid of diagonal lines.
+  screenCoord = mat2(0.1, -0.1, -0.1, 0.1) * screenCoord;
+  // is the point on the right side of the circle or left side of circle, 
+  // is the point on the top or bottom half
+  vec2 fractional = fract(density * screenCoord);
+  vec2 closestCircle = 2.0 * fractional - 1.0;
+  float distFromCircle = length(closestCircle);
+  // change size of the lines on brighter parts of the shape.
+  float radius = 1.1 - intensity;
+  // interpolate between the colors in a binary way (is point in the circle or outside the circle?)
+  vec3 color = mix(Ka*ambientColor, Kd*diffuseColor, step(radius, distFromCircle));
+  gl_FragColor = vec4(color, 1.0);
 }

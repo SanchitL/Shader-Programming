@@ -12,4 +12,9 @@ void main() {
   // Your solution should go here.
   vec4 vertPos4 = modelview * vec4(position, 1.0);
   gl_Position = projection * vertPos4;
+  // get position and normal
+  vertPos = vec3(vertPos4);
+  normalInterp = normalize(vec3(normalMat * vec4(normal, 1.0)));
+  // change the point of origin from bottom left to top-left.
+  texCoordInterp = vec2(texCoord.x, 1.0 - texCoord.y);
 }
