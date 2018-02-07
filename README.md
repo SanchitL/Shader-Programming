@@ -15,6 +15,9 @@ python -m SimpleHTTPServer
 ```
 
 # Gouraud Shading
+![Gouraud Shading](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/Gouraud.png)
+![Gouraud Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/GouraudTeapot.png)
+
 # Phong Shading
 # Cel Shading
 # UV Texture Mapping
