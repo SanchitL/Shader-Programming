@@ -13,7 +13,7 @@ Start a SimpleHTTPServer in the root of the repo.
 ```sh
 python -m SimpleHTTPServer
 ```
-Then navigate to [localhost:8000]
+Then navigate to ![localhost:8000](localhost:8000)
 
 # Gouraud Shading
 ![Gouraud Shading](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/Gouraud.png)
