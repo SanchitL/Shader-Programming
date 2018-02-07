@@ -19,6 +19,9 @@ python -m SimpleHTTPServer
 ![Gouraud Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/GouraudTeapot.png)
 
 # Phong Shading
+![Phong Shading](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/Phong.png)
+![Phong Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/PhongTeapot.png)
+
 # Cel Shading
 # UV Texture Mapping
 # Halftone Shading
