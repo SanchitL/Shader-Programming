@@ -28,5 +28,11 @@ Then navigate to ![localhost:8000](localhost:8000)
 ![Cel Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/CelTeapot.png)
 
 # UV Texture Mapping
+![Texture Mapping](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/TextueMapping.png)
+![Texture Mapping Plane](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/TextureMappingPlane.png)
 # Halftone Shading
+![Halftone Shading](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/Halftone.png)
+![Halftone Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/HalftoneTeapot.png)
 # Hatching
+![Hatching Shading](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/Hatching.png)
+![Hatching Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/HatchingTeapot.png)
