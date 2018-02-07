@@ -24,6 +24,9 @@ Then navigate to ![localhost:8000](localhost:8000)
 ![Phong Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/PhongTeapot.png)
 
 # Cel Shading
+![Cel Shading](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/Cel.png)
+![Cel Teapot](https://raw.githubusercontent.com/SanchitL/Shader-Programming/master/images/CelTeapot.png)
+
 # UV Texture Mapping
 # Halftone Shading
 # Hatching
